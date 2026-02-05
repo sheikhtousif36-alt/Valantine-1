@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine 💖</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff758c,#ff7eb3);
+    font-family:Poppins,sans-serif;
+    overflow:hidden;
+}
+
+.container{
+    background:white;
+    padding:40px;
+    border-radius:25px;
+    text-align:center;
+    width:90%;
+    max-width:420px;
+    box-shadow:0 15px 40px rgba(0,0,0,.3);
+}
+
+h1{color:#ff3f6c;}
+
+#text{
+    min-height:28px;
+    color:#555;
+    margin-top:10px;
+    font-weight:500;
+}
+
+.buttons{
+    margin-top:30px;
+    display:flex;
+    justify-content:center;
+    gap:20px;
+}
+
+button{
+    border:none;
+    border-radius:40px;
+    padding:16px 32px;
+    font-size:18px;
+    cursor:pointer;
+    transition:all .4s ease;
+}
+
+#yesBtn{
+    background:#ff3f6c;
+    color:white;
+    width:120px;
+}
+
+#noBtn{
+    background:#ddd;
+    color:#333;
+}
+
+/* SECOND PAGE */
+.second{
+    display:none;
+    position:fixed;
+    inset:0;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    background:linear-gradient(135deg,#ff758c,#ff7eb3);
+    color:white;
+    text-align:center;
+    animation:fadeIn .8s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;transform:scale(.95)}
+    to{opacity:1;transform:scale(1)}
+}
+
+.kiss{
+    font-size:90px;
+    animation:pulse 1s infinite alternate;
+}
+
+@keyframes pulse{
+    from{transform:scale(1)}
+    to{transform:scale(1.25)}
+}
+
+.glow{
+    text-shadow:0 0 10px #fff,0 0 20px #ffb3c6;
+}
+
+/* HEARTS */
+.heart{
+    position:fixed;
+    bottom:-20px;
+    font-size:24px;
+    animation:float 4s linear infinite;
+}
+
+@keyframes float{
+    to{
+        transform:translateY(-110vh);
+        opacity:0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="page1">
+    <h1>Will you be my Valentine? 💖</h1>
+    <p id="text">Soch samajh ke jawab dena 😌</p>
+
+    <div class="buttons">
+        <button id="yesBtn" onclick="yesClick()">Yes 💕</button>
+        <button id="noBtn" onclick="noClick()">No 🙃</button>
+    </div>
+</div>
+
+<div class="second" id="page2">
+    <div class="kiss">💋</div>
+    <h1 class="glow">Hehe… I knew it 😏</h1>
+    <h2 class="glow">I love you so much ❤️</h2>
+</div>
+
+<audio id="kissSound">
+  <source src="https://www.soundjay.com/human/kiss-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let steps = [
+    "Seriously 😐",
+    "Are you serious?",
+    "Think one more time 🤔",
+    "Think again 😒",
+    "Are you really serious?",
+    "Ab maan bhi jao 😩",
+    "Last chance 😤",
+    "One more chance 🥺",
+    "Ab bas ho gaya… YES bol do 😏"
+];
+
+let i = 0;
+
+function noClick(){
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const text = document.getElementById("text");
+
+    if(navigator.vibrate){
+        navigator.vibrate(120);
+    }
+
+    noBtn.innerText = steps[i];
+    text.innerText = steps[i];
+
+    let w = yesBtn.offsetWidth;
+    yesBtn.style.width = (w + 30) + "px";
+    yesBtn.style.fontSize = (parseFloat(getComputedStyle(yesBtn).fontSize) + 3) + "px";
+
+    if(i === steps.length - 1){
+        noBtn.style.display="none";
+        yesBtn.style.width="90%";
+        yesBtn.style.fontSize="36px";
+    }
+
+    i++;
+}
+
+function yesClick(){
+    document.getElementById("page1").style.display="none";
+    document.getElementById("page2").style.display="flex";
+    document.getElementById("kissSound").play();
+    heartRain();
+}
+
+function heartRain(){
+    setInterval(()=>{
+        let h=document.createElement("div");
+        h.className="heart";
+        h.innerText="❤️";
+        h.style.left=Math.random()*100+"vw";
+        h.style.fontSize=(20+Math.random()*20)+"px";
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),4000);
+    },300);
+}
+</script>
+
+</body>
+</html>
